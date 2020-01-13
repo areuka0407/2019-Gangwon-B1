@@ -90,12 +90,12 @@ a, a:hover { text-decoration: none; color: #666666 }
 .nav-item a { color: var(--deep-black); font-weight: 900; }
 
 .nav-item:hover { border-bottom-width: 5px; }
-.nav-item:hover .inner-nav { top: 30px; opacity: 1; transition: top 0.3s, opacity 0.3s; }
+.nav-item:hover .inner-nav { top: 30px; opacity: 1; transition: top 0.3s, opacity 0.3s; pointer-events: all; }
 
 .inner-nav { 
     position: absolute; left: 0; top: 0; opacity: 0;
     width: 150px; display: flex; flex-direction: column; align-items: center;
-    padding-top: 80px; z-index: 1000;
+    padding-top: 80px; z-index: 1000; pointer-events: none;
 }
 .inner-nav a {
     width: 150px; height: 80px; line-height: 80px; background-color: #fff;
