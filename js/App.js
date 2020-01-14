@@ -64,6 +64,13 @@ class App {
                 json_data["road2"],
                 json_data["road3"],
             ];
+            this.typeList = [new Blueprint(this)];
+            this.typeList[0].label = false;
+
+            let img = document.createElement("img");
+            img.src = this.typeList[0].toURL();
+            img.addEventListener("click", () => this.current_view = new Blueprint(this));
+            img.onload = () => this.$typeList.append(img);
     
             this.roadList.forEach((x, i) => {
                 let typePrint = new Blueprint(this, i);
