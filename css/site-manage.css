@@ -2,9 +2,22 @@
 
 #s-manage { position: relative; padding: 0 10px; width: 100%; }
 #s-manage span { height: 50px; line-height: 50px; font-size: 25px; }
+#s-manage #view-color { width: 50px; border: 3px solid var(--deep-black); }
 #s-manage .line-title { color: var(--bluegreen); font-size: 1.5em; }
-#s-manage .view-color { width: 50px; border: 3px solid var(--deep-black); }
-
 #viewport canvas { margin: 0 auto; }
 
 #save-line, #type-line { padding: 20px 30px; }
+#save-line .list, #type-line .list { display: flex; align-items: center; flex-wrap: wrap; }
+#save-line .list > div, #type-line .list > img 
+{ flex: 0 0 250px; width: 250px; margin: 10px; cursor: pointer; height: 150px; position: relative; overflow: hidden; }
+#save-line .list .closed {
+    background-color: rgb(247, 247, 247); border: 0;
+    width: 30px; height: 30px; position: absolute;
+    right: -30px; top: -30px; z-index: 10; opacity: 0; transition: 0.5s;
+}
+#save-line .list .closed::before {
+    content: '×'; position: absolute; left: 0; top: 0; width: 30px; height: 30px;
+    text-align: center; line-height: 25px; font-weight: bold;
+}
+
+#save-line .list > div:hover .closed { right: 0; top: 0; opacity: 1; transition: 0.3s; }
