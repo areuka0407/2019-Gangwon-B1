@@ -304,6 +304,7 @@ class App {
         });
         localStorage.setItem("current_view", JSON.stringify(save_cv));
 
+        console.log(this.saveList);
         let save_sl = this.saveList.map(print => {
             let p = {}
             p.type = print.typeIdx;
@@ -314,7 +315,6 @@ class App {
                 b.text = booth.text;
                 return b;
             });
-            console.log(print.boothList, p.booths);
 
             return p;
         });

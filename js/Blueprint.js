@@ -211,8 +211,11 @@ class Blueprint {
 
      saveItemEvents(){
          this.$image.addEventListener("click", () => {
-            this.label = true;
-            this.app.current_view = this;
+            let print = new Blueprint(this.app, this.typeIdx);
+            print.boothList = this.boothList.map(x => Object.assign(x));
+
+            this.app.current_view = print;
+            
             this.app.save();
          });
 
