@@ -1,13 +1,3 @@
-String.prototype.name2rgb = function(){
-    let div = document.createElement("div");
-    div.style.backgroundColor = this;
-    document.body.append(div);
-
-    let color = getComputedStyle(div).getPropertyValue("background-color");
-    let matches = color.match(/rgb\((?<r>[0-9]{1,3}), (?<g>[0-9]{1,3}), (?<b>[0-9]{1,3})\)/);
-    return Object.values(matches.groups).map(x => parseInt(x));;
-}
-
 class App {
     constructor(app_id){
         this.selectionColor = "#76b6f7aa";
@@ -164,7 +154,7 @@ class App {
             this.current_view.selection = null;
             this.current_view.render();
 
-            let empty = this.current_view.isEmpty(x, y, width, height, this.fillColor);
+            let empty = this.current_view.isEmpty(x, y, width, height, this.boothName);
 
             if(width * height < 2) alert("부스의 면적은 2㎡ 이상이여야 합니다.");
             else if(!empty) alert("다른 영역과 겹치지 않도록 하여야 합니다.");
@@ -207,11 +197,11 @@ class App {
             if(e.which !== 1 || this.current_view.movement === null) return;
 
             const {movement} = this.current_view
-            const {x, y, width, height, color} = movement;
+            const {x, y, width, height, text} = movement;
             movement.hidden = true;
             
             this.current_view.render();
-            let empty = this.current_view.isEmpty(x, y, width, height, color);
+            let empty = this.current_view.isEmpty(x, y, width, height, text);
             movement.hidden = false;
 
             if(!empty){
@@ -285,13 +275,6 @@ class App {
 
 
      save(){
-         // template
-        let printTemplate = {
-            type: null,
-            booths: [],
-        }
-        let boothTemplate = { x: 0, y: 0, w: 0, h: 0, text: "" };
-
         // save
         let save_cv = {};
         save_cv.type = this.current_view.typeIdx;
@@ -304,7 +287,6 @@ class App {
         });
         localStorage.setItem("current_view", JSON.stringify(save_cv));
 
-        console.log(this.saveList);
         let save_sl = this.saveList.map(print => {
             let p = {}
             p.type = print.typeIdx;
@@ -344,7 +326,6 @@ class App {
             save_list = JSON.parse(save_list);
 
             save_list.forEach(item => {
-                console.log(item);
                 let print = new Blueprint(this, item.type);
                 print.label = false;
                 print.boothList = item.booths.map(booth => {
@@ -359,7 +340,6 @@ class App {
                     this.saveList.push(print);
                     this.$saveList.append(print.$saveItem);
                 }   
-                console.log(print);                   
             });
          }
      }

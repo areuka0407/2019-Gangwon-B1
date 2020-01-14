@@ -174,33 +174,28 @@ class Blueprint {
         return [x, y];
     }
 
-    isEmpty(x, y, w, h, allowed_color = null){
-        // 예외처리 색상이 배열이 아니면 RGB 배열로 변환
-        if(allowed_color !== null && typeof allowed_color === "string") allowed_color = allowed_color.name2rgb();
-        
-        
+    isEmpty(x, y, w, h, allowed_boothName = null){
         for(let cx = x; cx < x + w; cx++){
             for(let cy = y; cy < y + h; cy++){
                 let [px, py] = this.findPixel(cx, cy);
 
+                // 통로가 있는 지 검사
                 let filled = this.ctx.getImageData(px + this.unit / 2, py + this.unit / 2, 1, 1);
+                if(Array.from(filled.data).slice(0, 3).reduce((p, c) => p + c, 0) === 0 && filled.data[3] === 255) return false;
 
-                // 생성할 부스 색상과 일치하면 패스
-                if(allowed_color !== null && allowed_color[0] === filled.data[0] && allowed_color[1] === filled.data[1] && allowed_color[2] === filled.data[2]) continue;
-                else if(filled === 255 && filled === 255 && filled === 255) continue;
-                
-                
-                if(filled.data[3] !== 0) return false;
+                // 겹치는 부스가 있는지 검사
+                if(this.whatIsThat(cx, cy, allowed_boothName)) return false;
             }
         }
+
         return true;
     }
 
     // UNIT 단위의 X, Y가 필요하다
-    whatIsThat(ux, uy){
+    whatIsThat(ux, uy, known){
         return this.boothList.find(booth => {
-            const { x, y, width, height } = booth;
-            return x <= ux && ux < x + width && y <= uy && uy < y + height;
+            const { x, y, width, height, text } = booth;
+            return text !== known && (x <= ux && ux < x + width && y <= uy && uy < y + height);
         });
     }
 
